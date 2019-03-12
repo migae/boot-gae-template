@@ -1,0 +1,8 @@
+{:servlets [{:ns {{service}}.core
+             :name "{{service}}-servlet"
+             :display {:name "{{service}} Servlet"}
+             :desc {:text "blah blah"}
+             :urls ["/*"]
+             ;; :params [{:name "greeting" :val "Hello"}]
+             ;; :load-on-startup {:order 3}
+             }]}

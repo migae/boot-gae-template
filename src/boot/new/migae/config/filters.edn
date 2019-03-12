@@ -1,0 +1,5 @@
+{:filters [{:ns {{service}}.filter
+            :name "{{service}} filter"
+            :display {:name "{{service}} filter"}
+            :urls ["/*"]
+            :desc {:text "{{service}} filter"}}]}
