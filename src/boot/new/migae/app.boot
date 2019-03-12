@@ -9,17 +9,10 @@
 (require '[migae.boot-gae :as gae]
          '[boot.task.built-in :as builtin])
 
-(deftask xrun
-  "run services"
-  [w wardirs WARDIRS [str] "wardirs"
-   v verbose bool "verbose"]
-  (let [verbose (or verbose false)]
-    (gae/reloader :verbose true)
-    (gae/run :verbose verbose
-                  :services [
+(task-options!
+ gae/run {:services [
 {{#services}}
                              {:name "{{service}}" :wardir "{{wardir}}/target" :port {{port}}}
 {{/services}}
-                             ])))
-
+	]})
 
