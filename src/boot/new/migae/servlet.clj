@@ -15,36 +15,28 @@
 
 (defroutes hello-routes
   (GET "/hello/:name" [name :as rqst]
-       (do (log/trace "hello servlet handler:  greeter.hello on " (:request-method rqst)
+       (do (log/info "{{service}} servlet, hello handler, rqst " (:request-method rqst)
                      (str (.getRequestURL (:servlet-request rqst))))
-           (-> (rsp/response (str "Hi there from the HELLO servlet (of service-b), " name))
+           (-> (rsp/response (str "Hi there " name ", from the HELLO handler of servlet: {{service}}"))
                (rsp/content-type "text/html"))))
 
-  (GET "/foo/:name" [name :as rqst]
-       (do (log/info "hello servlet handler:  greeter.hello on " (:request-method rqst)
-                     (str (.getRequestURL (:servlet-request rqst))))
-           (-> (rsp/response (str name "?  I pity the foo!"))
-               (rsp/content-type "text/html"))))
+  (route/not-found "<h1>route not found</h1>"))
 
-  (route/not-found "<h1>Hello route not found</h1>"))
-
+;;;;;; javax.servlet.Servlet methods
 ;; (defn -init
 ;;   ([this]
-;;    (println "1. init entry")
-;;    (.superInit this)
-;;    (println "1. init exit"))
-
+;;    (.superInit this))
 ;;   ([this config]
-;;    (println "2. init entry")
-;;    (.superInit this config)
-;;    (println "2. init exit")))
-
+;;    (.superInit this config))
+;; (defn -getServletConfig
+;;   [])
+;; (defn -getServletInfo
+;;   [])
 ;; (defn -destroy
 ;;   [this]
-;;   (println "1. destroy entry")
-;;   (.superDestroy this)
-;;   (println "1. destroy exit"))
+;;   (.superDestroy this))
 
+;; required (defines -service):
 (ring/defservice
    (-> (routes
         hello-routes)
