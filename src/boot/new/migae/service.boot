@@ -9,7 +9,7 @@
  :repositories #(conj % ["maven-central" {:url "https://mvnrepository.com"}]
                       ["central" "https://repo1.maven.org/maven2/"])
 
- :dependencies   '[[org.clojure/clojure "1.10.0" :scope "runtime"]
+ :dependencies   '[[org.clojure/clojure RELEASE :scope "runtime"]
                    [org.clojure/tools.reader "1.3.2"]
                    [org.clojure/tools.logging "0.4.1"]
 

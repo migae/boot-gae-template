@@ -20,10 +20,31 @@ my-project
 	...etc...
 ```
 
-You can add as many services as you like using the `-a` arg.
+The name of the template is `migae`, passed with the `-t` option.  The
+`-n` option is the app name, the `-a` option, a service name.
+
+For help with boot/new:  `$ boot -d boot/new new -h`
+
+TO use locally installed snapshot version of the template, add `-S` argument.
+
+You can repeat the `-a` arg to add as many services as you like.
 
 You must build and save each service separately (`$ boot build target`). Then from my-project `$ boot gae/run` will run all services.
 
 See [boot-gae](https://github.com/migae/boot-gae) for details.
 
 To build a single service (app) just omit the -a args.
+
+## Hacking
+
+Edit the code.  Give it a "-SNAPSHOT" version ID in build.boot, then install it locally:
+
+```
+$ boot pom jar install
+```
+
+In a test directory, use the snapshot by adding the `-S` argument:
+
+```
+$ boot -d boot/new new -t migae -n myapp -S`.
+```

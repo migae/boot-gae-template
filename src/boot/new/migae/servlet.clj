@@ -1,4 +1,5 @@
 (ns {{service}}.core
+  "FIXME: This is the only servlet in this service, by default. To add others, specify them in config/servlets.edn"
   (:refer-clojure :exclude [read read-string])
   (:import #_[com.google.appengine.api.datastore EntityNotFoundException]
            [java.io InputStream ByteArrayInputStream]
@@ -17,7 +18,7 @@
   (GET "/hello/:name" [name :as rqst]
        (do (log/info "{{service}} servlet, hello handler, rqst " (:request-method rqst)
                      (str (.getRequestURL (:servlet-request rqst))))
-           (-> (rsp/response (str "Hi there " name ", from the HELLO handler of servlet: {{service}}"))
+           (-> (rsp/response (str "Hi there " name ", from the HELLO handler of servlet: {{service}}.core"))
                (rsp/content-type "text/html"))))
 
   (route/not-found "<h1>route not found</h1>"))
@@ -36,7 +37,7 @@
 ;;   [this]
 ;;   (.superDestroy this))
 
-;; required (defines -service):
+;; required (defines -service method of javax.servlet.Servlet API):
 (ring/defservice
    (-> (routes
         hello-routes)

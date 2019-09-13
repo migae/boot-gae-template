@@ -1,5 +1,6 @@
 {:app-id "{{name}}"
- :module {:name "{{service}}" :version "v1"}
+ :service {:name "{{service}}"
+          :version "v1"}       ; Version string should begin with a letter.
 
  :thread-safe true
  :system-properties {:logging {;;:jul {:name "java.util.logging.config.file"
