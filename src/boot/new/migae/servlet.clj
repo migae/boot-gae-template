@@ -7,15 +7,17 @@
            [java.lang IllegalArgumentException RuntimeException]
            [javax.servlet ServletConfig])
   (:require [clojure.tools.logging :as log :refer :all] ;; [debug info]] ;; :trace, :warn, :error, :fatal
-            [compojure.core :refer :all]
+            [compojure.core :as cpj]
             [compojure.route :as route]
             [ring.util.response :as rsp]
             [ring.util.servlet :as ring]
-            [ring.middleware.params :refer [wrap-params]]
-            [ring.middleware.defaults :refer :all]))
+            ;; [ring.middleware.params :as rmwp :refer [wrap-params]]
+            [ring.middleware.defaults :as rmwd]))
 
-(defroutes hello-routes
-  (GET "/hello/:name" [name :as rqst]
+;; CAVEAT: if you change the routes, you may need to change the
+;; servlets.edn config file to match.
+(cpj/defroutes hello-routes
+  (cpj/GET "/hello/:name" [name :as rqst]
        (do (log/info "{{service}} servlet, hello handler, rqst " (:request-method rqst)
                      (str (.getRequestURL (:servlet-request rqst))))
            (-> (rsp/response (str "Hi there " name ", from the HELLO handler of servlet: {{service}}.core"))
@@ -23,7 +25,14 @@
 
   (route/not-found "<h1>route not found</h1>"))
 
-;;;;;; javax.servlet.Servlet methods
+;; required (defines -service method of javax.servlet.Servlet API):
+(ring/defservice
+   (-> (cpj/routes
+        hello-routes)
+       (rmwd/wrap-defaults rmwd/api-defaults)
+       ))
+
+;;;; javax.servlet.Servlet methods
 ;; (defn -init
 ;;   ([this]
 ;;    (.superInit this))
@@ -36,10 +45,3 @@
 ;; (defn -destroy
 ;;   [this]
 ;;   (.superDestroy this))
-
-;; required (defines -service method of javax.servlet.Servlet API):
-(ring/defservice
-   (-> (routes
-        hello-routes)
-       (wrap-defaults api-defaults)
-       ))
