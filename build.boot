@@ -8,6 +8,9 @@
                             [boot/new "RELEASE"]
                             [adzerk/boot-test "RELEASE" :scope "test"]])
 
+(require '[adzerk.boot-test :refer [test]]
+         '[boot.new :refer [new]])
+
 (task-options!
  pom {:project     project
       :version     version
@@ -17,10 +20,13 @@
       :license     {"Eclipse Public License"
                     "http://www.eclipse.org/legal/epl-v10.html"}})
 
-(deftask build
+(deftask locally
   "Build and install the project locally."
   []
   (comp (pom) (jar) (install)))
 
-(require '[adzerk.boot-test :refer [test]]
-         '[boot.new :refer [new]])
+(deftask monitor
+  "watch etc."
+  []
+  (comp (watch)
+        (notify :audible true)))
