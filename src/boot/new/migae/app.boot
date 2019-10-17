@@ -16,3 +16,14 @@
 {{/services}}
 	]})
 
+(deftask locally
+  "Build and install the project locally."
+  []
+  (comp (pom) (jar) (install)))
+
+(deftask monitor
+  "watch etc."
+  []
+  (comp (watch)
+        (notify :audible true)))
+
